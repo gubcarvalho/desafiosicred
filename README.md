@@ -13,4 +13,6 @@ Para versionamento dos endpoints temos algumas estrategias:
 - custom header versioning: utiliza um custom header para especificar a versão
 - content negotiation (accept header): aproveita o cabeçalho HTTP Accept para especificar a versão da API desejada.
 
-No entanto estas estrategias sao utilizadas em desenvolvimento de APIS. Em microservicos administramos a versao da api atraves da imagem disponibilizada no kubernetes.
+No entanto estas estrategias sao utilizadas em desenvolvimento de APIs. Em microservicos administramos a versão atraves da imagem disponibilizada no kubernetes.
+
+**_Obs: tambem podemos utilizar as estrategias de versionamento mesmo administrando a imagem do microservico tendo assim uma politica hibrida de versionamento._**
