@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 import java.util.UUID;
 
 @Data
-@Accessors(chain = true, fluent = true)
+@Accessors(chain = true, fluent = false)
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

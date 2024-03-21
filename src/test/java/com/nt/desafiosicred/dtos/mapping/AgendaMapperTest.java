@@ -19,15 +19,15 @@ class AgendaMapperTest {
 
         final var agenda = mapper.createAgenda(new AgendaRecord(null, description));
         assertNotNull(agenda);
-        assertNull(agenda.id());
-        assertEquals(description, agenda.description());
-        assertEquals(AgendaSessionStatus.CLOSED, agenda.sessionStatus());
+        assertNull(agenda.getId());
+        assertEquals(description, agenda.getDescription());
+        assertEquals(AgendaSessionStatus.CLOSED, agenda.getSessionStatus());
 
         final var agenda2 = mapper.createAgenda(new AgendaRecord(UUID.randomUUID(), "any name"));
         assertNotNull(agenda2);
-        assertNull(agenda.id());
-        assertEquals(description, agenda2.description());
-        assertEquals(AgendaSessionStatus.CLOSED, agenda2.sessionStatus());
+        assertNull(agenda.getId());
+        assertEquals(description, agenda2.getDescription());
+        assertEquals(AgendaSessionStatus.CLOSED, agenda2.getSessionStatus());
     }
 
 }

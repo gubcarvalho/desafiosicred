@@ -36,8 +36,8 @@ class AgendaServiceTest {
         final var agendaRecord = new AgendaRecord(null, "any");
 
         final var expectedResult = new Agenda()
-                .description(agendaRecord.description())
-                .sessionStatus(AgendaSessionStatus.CLOSED);
+                .setDescription(agendaRecord.description())
+                .setSessionStatus(AgendaSessionStatus.CLOSED);
 
         when(agendaMapper.createAgenda(agendaRecord)).thenReturn(expectedResult);
         when(agendaMapper.toRecord(any())).thenReturn(

@@ -42,7 +42,7 @@ public class AgendaVowService {
                 .orElseThrow(() -> new ResourceNotFoundException("agenda not found"));
 
         // check if the session is open
-        if (!AgendaSessionStatus.OPEN_FOR_VOTING.equals(agenda.sessionStatus())) {
+        if (!AgendaSessionStatus.OPEN_FOR_VOTING.equals(agenda.getSessionStatus())) {
             throw new ValidationException("Agenda voting not opened");
         }
 
@@ -52,7 +52,7 @@ public class AgendaVowService {
 //            throw new ValidationException("User not able to vote");
 //        }
 
-        if (agendaVowRepository.existsByAgendaIdAndCpf(agenda.id(), cpf)) {
+        if (agendaVowRepository.existsByAgendaIdAndCpf(agenda.getId(), cpf)) {
             throw new ValidationException("Vote already registered");
         }
 
@@ -60,7 +60,7 @@ public class AgendaVowService {
         log.info(
                 "vote: {}",
                 agendaVowRepository.save(new AgendaVow()
-                        .agendaId(agenda.id())
+                        .agendaId(agenda.getId())
                         .cpf(cpf)
                         .vow(vow ? AgendaVowAnswer.YES : AgendaVowAnswer.NO)
                 ));
