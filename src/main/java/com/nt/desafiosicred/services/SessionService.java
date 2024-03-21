@@ -30,11 +30,11 @@ public class SessionService {
         final var agenda = agendaRepository.findById(agendaId)
                 .orElseThrow(() -> new ResourceNotFoundException("agenda not found"));
 
-        if (!AgendaSessionStatus.CLOSED.equals(agenda.getSessionStatus())) {
+        if (!AgendaSessionStatus.CLOSED.equals(agenda.sessionStatus())) {
             throw new ValidationException("Agenda voting already opened");
         }
 
-        agenda.setSessionStatus(AgendaSessionStatus.OPEN_FOR_VOTING);
+        agenda.sessionStatus(AgendaSessionStatus.OPEN_FOR_VOTING);
         agendaRepository.save(agenda);
 
         closeSessionSchedulingService.scheduleATask(
@@ -49,9 +49,9 @@ public class SessionService {
 
     public void closeSession(final UUID agendaId) {
         agendaRepository.findById(agendaId)
-                .filter(agenda -> !AgendaSessionStatus.CLOSED.equals(agenda.getSessionStatus()))
+                .filter(agenda -> !AgendaSessionStatus.CLOSED.equals(agenda.sessionStatus()))
                 .ifPresent(agenda -> {
-                    agenda.setSessionStatus(AgendaSessionStatus.CLOSED);
+                    agenda.sessionStatus(AgendaSessionStatus.CLOSED);
                     log.info(
                             "session closed: {}",
                             agendaRepository.save(agenda)

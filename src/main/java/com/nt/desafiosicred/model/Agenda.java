@@ -3,10 +3,12 @@ package com.nt.desafiosicred.model;
 import com.nt.desafiosicred.enums.AgendaSessionStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.util.UUID;
 
 @Data
+@Accessors(chain = true, fluent = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
