@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -79,13 +81,21 @@ public class AgendaVowService {
     }
 
     public AgendaResultRecord getResults(final UUID agendaId) {
-        final var results = agendaVowRepository.findByAgendaId(agendaId)
+
+        final var agenda = agendaRepository.findById(agendaId)
+                .orElseThrow(() -> new ResourceNotFoundException("agenda not found"));
+
+        final var results = agendaVowRepository.findByAgendaId(agenda.getId())
                 .stream()
                 .collect(
                         Collectors.groupingBy(AgendaVow::vow, Collectors.counting())
                 );
 
-        return new AgendaResultRecord(agendaId, results);
+        final var formattedResult = new EnumMap<AgendaVowAnswer, Long>(AgendaVowAnswer.class);
+        formattedResult.put(AgendaVowAnswer.YES, Optional.ofNullable(results.get(AgendaVowAnswer.YES)).orElse(0L));
+        formattedResult.put(AgendaVowAnswer.NO, Optional.ofNullable(results.get(AgendaVowAnswer.NO)).orElse(0L));
+
+        return new AgendaResultRecord(agendaId, agenda.getSessionStatus(), formattedResult);
     }
 
     public void shareResults(final UUID agendaId) {
