@@ -1,0 +1,23 @@
+package com.nt.desafiosicred.model;
+
+import com.nt.desafiosicred.enums.AgendaSessionStatus;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.UUID;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+//@Table(name = "agenda")
+public class Agenda {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    private String description;
+
+    private AgendaSessionStatus sessionStatus;
+}

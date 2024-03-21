@@ -1,0 +1,54 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: desafio-sicred
+  cloud:
+    loadbalancer:
+      ribbon:
+        enable: false
+  rabbitmq:
+    port: 5672
+    host: localhost
+    username: admin
+    password: abc123
+  datasource:
+    url: jdbc:postgresql://localhost:5432/desafio-dev
+    username: sicred
+    password: password0
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: hikari-cp
+      connection-timeout: 60000
+      minimum-idle: ${IDLE_CONNECTION:3}
+      maximum-pool-size: 100
+      leak-detection-threshold: 60000
+  jpa:
+    hibernate:
+      dll-auto: validate
+    generate-ddl: false
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: public
+
+  liquibase:
+    enabled: true
+    drop-first: true
+    change-log: classpath:db/changelog/changelog-master.yaml
+    default-schema: public
+
+  management:
+    endpoint:
+      metrics:
+        enabled: true
+    web:
+      exposure:
+        include:  metrics
+
+app:
+  integration:
+    users-client:
+      base-url: https://user-info.herokuapp.com
+      check-user-endpoint: /users/{cpf}

@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  psql-db:
+    image: postgres:13-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: desafio-dev
+      POSTGRES_USER: sicred
+      POSTGRES_PASSWORD: password0
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3.8.14-management
+    container_name: 'rabbitmq2'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=abc123
+    volumes:
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq
+    networks:
+      - rabbitmq_go_net
+
+volumes:
+  db-data:
+#    driver: local
+
+networks:
+  rabbitmq_go_net:
+    driver: bridge

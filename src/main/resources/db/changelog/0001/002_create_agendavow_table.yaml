@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: Gustavo Carvalho
+      changes:
+        - createTable:
+            tableName: agenda_vow
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: agenda_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cpf
+                  type: VARCHAR(11)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: vow
+                  type: VARCHAR(3)
+                  constraints:
+                    nullable: false

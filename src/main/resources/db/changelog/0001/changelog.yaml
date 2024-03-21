@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: 001_create_agenda_table.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: 002_create_agendavow_table.yaml
+      relativeToChangelogFile: true
