@@ -1,8 +1,10 @@
-Tarefa bonus 3 - Perfomance tests
+**Tarefa bonus 3 - Perfomance tests**
 
 Normalmente utilizo o JMeter para fazer os testes de performance. No entanto nao houve tempo de implementar neste desafio
 
-Tarefa bonus 4 - Versionamento da API
+
+
+**Tarefa bonus 4 - Versionamento da API**
 
 Para versionamento dos endpoints temos algumas estrategias:
 
