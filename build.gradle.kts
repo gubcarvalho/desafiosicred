@@ -32,6 +32,10 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-config")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
+//    implementation("org.springdoc:springdoc-openapi-ui:1.8.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+    implementation("org.springdoc:springdoc-openapi-starter-common:2.3.0")
+
     implementation("org.liquibase:liquibase-core")
 
     implementation("org.mapstruct:mapstruct:${mapStructVersion}")

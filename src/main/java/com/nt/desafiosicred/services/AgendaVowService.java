@@ -50,9 +50,9 @@ public class AgendaVowService {
 
         // check eligibility
         // this validation was commented because the users endpoint is not available anymore
-//        if (!checkUser(cpf)) {
-//            throw new ValidationException("User not able to vote");
-//        }
+        if (!checkUser(cpf)) {
+            throw new ValidationException("CPF not able to vote");
+        }
 
         if (agendaVowRepository.existsByAgendaIdAndCpf(agenda.getId(), cpf)) {
             throw new ValidationException("Vote already registered");
@@ -68,7 +68,17 @@ public class AgendaVowService {
                 ));
     }
 
+    /**
+     * Check if the CPF is able to vote
+     *
+     * NOTE: The url does not exist. So I decide only to disable the calling to show how we could done this
+     *
+     * @param cpf
+     */
     private boolean checkUser(final String cpf) {
+
+        if (cpf != null) return true;
+
         try {
             return Optional.ofNullable(cpf)
                     .map(userClient::checkUser)
