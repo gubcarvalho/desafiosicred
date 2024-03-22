@@ -48,6 +48,9 @@ spring:
         include:  metrics
 
 app:
+  platform-queues:
+    - system1.share-results
+    - system2.other-share-results
   integration:
     users-client:
       base-url: https://user-info.herokuapp.com

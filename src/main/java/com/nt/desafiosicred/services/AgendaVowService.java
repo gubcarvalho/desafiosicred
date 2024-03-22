@@ -1,5 +1,6 @@
 package com.nt.desafiosicred.services;
 
+import com.nt.desafiosicred.config.PlatformQueues;
 import com.nt.desafiosicred.dtos.AgendaResultRecord;
 import com.nt.desafiosicred.enums.AgendaSessionStatus;
 import com.nt.desafiosicred.enums.AgendaVowAnswer;
@@ -14,10 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,6 +27,8 @@ public class AgendaVowService {
     private final AgendaRepository agendaRepository;
 
     private final AgendaVowRepository agendaVowRepository;
+
+    private final PlatformQueues platformQueues;
 
     private final MessageSender messageSender;
 
@@ -92,13 +92,24 @@ public class AgendaVowService {
                 );
 
         final var formattedResult = new EnumMap<AgendaVowAnswer, Long>(AgendaVowAnswer.class);
-        formattedResult.put(AgendaVowAnswer.YES, Optional.ofNullable(results.get(AgendaVowAnswer.YES)).orElse(0L));
-        formattedResult.put(AgendaVowAnswer.NO, Optional.ofNullable(results.get(AgendaVowAnswer.NO)).orElse(0L));
+        Arrays.stream(AgendaVowAnswer.values())
+                .forEach(value -> formattedResult.put(value, Optional.ofNullable(results.get(value)).orElse(0L)));
 
         return new AgendaResultRecord(agendaId, agenda.getSessionStatus(), formattedResult);
     }
 
+    /**
+     * Share the agenda result with other systems in the platform
+     *
+     * NOTE: here i could have use a fanout message but i decide to implement
+     * with queue configuration on the properties because there was no instructions about it
+     * 
+     * @param agendaId
+     */
     public void shareResults(final UUID agendaId) {
-        messageSender.shareAgendaResults("", getResults(agendaId));
+        platformQueues.forEach(queueName -> messageSender.shareAgendaResults(
+                queueName,
+                getResults(agendaId))
+        );
     }
 }
